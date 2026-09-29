@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container my-5">
+        <div class="banner-container">
+            <img src="{% static 'images/banner.jpg' %}"
+                alt="Bazaar Online banner"
+                class="banner-image">
+        </div>
+    <h2 class="text-center mb-5">
+        All Categories
+    </h2>
+
+    <div class="row g-4">
+
+        {% for category in categories %}
+
+            <div class="col-6 col-md-4 col-lg-3">
+
+                <div class="category_card text-center">
+
+                    <div class="category_icon">
+                        <a href="{% url 'category_listings' category.value %}">
+                            <i class="bi {{ category.icon }}"></i>
+                        </a>
+                    </div>
+
+                    <h6>{{ category.label }}</h6>
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

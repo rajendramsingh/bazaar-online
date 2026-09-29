@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container my-5">
+
+    <h2 class="mb-4">{{ category_name }}</h2>
+
+    <div class="row">
+
+        {% for listing in listings %}
+
+        <div class="col-md-4 mb-4">
+
+            <div class="card h-100 shadow-sm">
+
+                {% if listing.image %}
+                    <img src="{{ listing.image.url }}"
+                        class="card-img-top"
+                        alt="{{ listing.title }}"
+                        style="height: 220px; object-fit: cover;">
+                {% else %}
+                    <img src="{% static 'images/default.jpg' %}"
+                        class="card-img-top"
+                        alt="No image available"
+                        style="height: 220px; object-fit: cover;">
+                {% endif %}
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        {{ listing.title }}
+                    </h5>
+
+                    <p class="card-text">
+                        {{ listing.description|truncatewords:15 }}
+                    </p>
+
+                    <h5>
+                        Rs. {{ listing.price }}
+                    </h5>
+
+                    <p class="text-muted">
+                        {{ listing.location }}
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="col-12">
+            <div class="alert alert-info">
+                There are currently no listings in this category.
+            </div>
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

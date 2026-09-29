@@ -1,0 +1,249 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+{% if messages %}
+    {% for message in messages %}
+        <div id="success-message"
+             class="alert alert-success alert-dismissible fade show"
+             role="alert">
+            {{ message }}
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Close"></button>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<script>
+    setTimeout(function() {
+        var message = document.getElementById("success-message");
+
+        if (message) {
+            message.style.display = "none";
+        }
+    }, 2500);
+</script>
+
+<div class="container my-5">
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header text-white text-center"
+                     style="background: linear-gradient(135deg, #4F9D83, #2F806A);">
+                    <h3 class="mb-1">Post an Ad</h3>
+                    <p class="mb-0">
+                        Sell your products and services on Bazaar Online
+                    </p>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <form method="POST" enctype="multipart/form-data">
+
+                        {% csrf_token %}
+
+                        <!-- Ad Title -->
+                        <div class="mb-3">
+                            <label for="title" class="form-label fw-bold">
+                                Ad Title
+                            </label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   id="title"
+                                   name="title"
+                                   placeholder="e.g. iPhone 15 Pro for Sale"
+                                   required>
+                        </div>
+
+
+                        <!-- Category -->
+                        <div class="mb-3">
+                            <label for="category" class="form-label fw-bold">
+                                Category
+                            </label>
+
+                            <select class="form-select"
+                                    id="category"
+                                    name="category"
+                                    required>
+
+                                <option value="" selected disabled>
+                                    Select a category
+                                </option>
+
+                                <option value="mobiles">
+                                    mobiles
+                                </option>
+
+                                <option value="computers">
+                                    computers
+                                </option>
+
+                                <option value="electronics">
+                                    Electronics
+                                </option>
+
+                                <option value="vehicles">
+                                    Vehicles
+                                </option>
+
+                                <option value="property">
+                                    Property
+                                </option>
+
+                                <option value="jobs">
+                                    Jobs
+                                </option>
+
+                                <option value="services">
+                                    Services
+                                </option>
+
+                                <option value="musical_instruments">
+                                    Musical Instruments
+                                </option>
+
+                                <option value="sports">
+                                    sports
+                                </option>
+
+                                <option value="books">
+                                    books
+                                </option>
+
+                                <option value="toys">
+                                    Toys
+                                </option>
+
+                                <option value="pets">
+                                    Pets
+                                </option>
+
+                                <option value="furniture">
+                                    Furniture
+                                </option>
+
+                                <option value="fashion">
+                                    Fashion
+                                </option>
+
+                                <option value="other">
+                                    Other
+                                </option>
+
+                            </select>
+                        </div>
+
+
+                        <!-- Price -->
+                        <div class="mb-3">
+                            <label for="price" class="form-label fw-bold">
+                                Price (NPR)
+                            </label>
+
+                            <input type="number"
+                                   class="form-control"
+                                   id="price"
+                                   name="price"
+                                   placeholder="Enter price"
+                                   min="0"
+                                   required>
+                        </div>
+
+
+                        <!-- Description -->
+                        <div class="mb-3">
+                            <label for="description" class="form-label fw-bold">
+                                Description
+                            </label>
+
+                            <textarea class="form-control"
+                                      id="description"
+                                      name="description"
+                                      rows="6"
+                                      placeholder="Describe your product or service..."
+                                      required></textarea>
+                        </div>
+
+
+                        <!-- Location -->
+                        <div class="mb-3">
+                            <label for="location" class="form-label fw-bold">
+                                Location
+                            </label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   id="location"
+                                   name="location"
+                                   placeholder="e.g. Kathmandu, Baneshwor"
+                                   required>
+                        </div>
+
+
+                        <!-- Contact Number -->
+                        <div class="mb-3">
+                            <label for="phone" class="form-label fw-bold">
+                                Contact Number
+                            </label>
+
+                            <input type="tel"
+                                   class="form-control"
+                                   id="phone"
+                                   name="phone"
+                                   placeholder="e.g. 98XXXXXXXX"
+                                   required>
+                        </div>
+
+
+                        <!-- Image -->
+                        <div class="mb-4">
+                            <label for="image" class="form-label fw-bold">
+                                Upload Image
+                            </label>
+
+                            <input type="file"
+                                   class="form-control"
+                                   id="image"
+                                   name="image"
+                                   accept="image/*">
+
+                            <div class="form-text">
+                                You can upload a clear image of your product.
+                            </div>
+                        </div>
+
+
+                        <!-- Submit -->
+                        <div class="d-grid">
+                            <button type="submit"
+                                    class="btn btn-lg text-white"
+                                    style="background-color: #2F806A;">
+
+                                <i class="bi bi-megaphone-fill"></i>
+                                Post Ad
+
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}

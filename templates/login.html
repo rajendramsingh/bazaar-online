@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container my-5" style="max-width: 450px;">
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+
+            <h2 class="text-center mb-4">Login to Bazaar Online</h2>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div id="success-message" class="alert alert-{{ message.tags }}" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <script>
+                setTimeout(function() {
+                    var message = document.getElementById("success-message");
+
+                    if (message) {
+                        message.style.display = "none";
+                    }
+                }, 2500);
+            </script>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label for="username" class="form-label">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="username"
+                        name="username"
+                        placeholder="Enter your username"
+                        required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        class="form-control"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        required>
+                </div>
+
+                <button type="submit" class="btn btn-success w-100">
+                    Login
+                </button>
+            </form>
+
+            <hr class="my-4">
+
+            <p class="text-center mb-0">
+                New to Bazaar Online?
+                <a href="{% url 'signup' %}">
+                    Create an account
+                </a>
+            </p>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

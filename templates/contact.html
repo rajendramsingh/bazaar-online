@@ -1,0 +1,188 @@
+```html
+{% extends 'base.html' %}
+
+{% block title %}Contact Us - Bazaar Online{% endblock %}
+
+{% block content %}
+
+{% if messages %}
+    {% for message in messages %}
+        <div id="success-message"
+             class="alert alert-success alert-dismissible fade show"
+             role="alert">
+            {{ message }}
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Close"></button>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<script>
+    setTimeout(function() {
+        var message = document.getElementById("success-message");
+
+        if (message) {
+            message.style.display = "none";
+        }
+    }, 2500);
+</script>
+
+<div class="container py-5">
+
+    <!-- Page Heading -->
+    <div class="text-center mb-5">
+        <h1 class="fw-bold">Contact Bazaar Online</h1>
+        <p class="text-muted">
+            Have a question, suggestion, or need help? We'd love to hear from you.
+        </p>
+    </div>
+
+    <div class="row g-4">
+
+        <!-- Contact Information -->
+        <div class="col-md-5">
+
+            <div class="card shadow-sm h-100 border-0">
+                <div class="card-body p-4">
+
+                    <h3 class="fw-bold mb-4">Get in Touch</h3>
+
+                    <div class="mb-4">
+                        <h6 class="fw-bold">📍 Address</h6>
+                        <p class="text-muted mb-0">
+                            Kathmandu, Nepal
+                        </p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6 class="fw-bold">📧 Email</h6>
+                        <p class="text-muted mb-0">
+                            mail4rms@gmail.com
+                        </p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6 class="fw-bold">📞 Phone</h6>
+                        <p class="text-muted mb-0">
+                            +977 9865489920
+                        </p>
+                    </div>
+
+                    <div>
+                        <h6 class="fw-bold">🕒 Office Hours</h6>
+                        <p class="text-muted mb-0">
+                            Sunday - Friday<br>
+                            10:00 AM - 5:00 PM
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- Contact Form -->
+        <div class="col-md-7">
+
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+
+                    <h3 class="fw-bold mb-4">Send Us a Message</h3>
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label for="name" class="form-label">
+                                Your Name
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="name"
+                                name="name"
+                                placeholder="Enter your name"
+                                required>
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">
+                                Email Address
+                            </label>
+
+                            <input
+                                type="email"
+                                class="form-control"
+                                id="email"
+                                name="email"
+                                placeholder="Enter your email"
+                                required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">
+                                Phone Number
+                            </label>
+                            <input
+                                type="tel"
+                                class="form-control"
+                                id="phone"
+                                name="phone"
+                                placeholder = "Enter your phone number"
+                                required>
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label for="subject" class="form-label">
+                                Subject
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="subject"
+                                name="subject"
+                                placeholder="What is your message about?"
+                                required>
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label for="message" class="form-label">
+                                Message
+                            </label>
+
+                            <textarea
+                                class="form-control"
+                                id="message"
+                                name="message"
+                                rows="6"
+                                placeholder="Write your message here..."
+                                required></textarea>
+                        </div>
+
+
+                        <button type="submit" class="btn btn-success px-4">
+                            Send Message
+                        </button>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

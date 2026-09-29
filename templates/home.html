@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<!-- ================= HERO ================= -->
+
+{% if messages %}
+    {% for message in messages %}
+        <div id="success-message"
+             class="alert alert-success alert-dismissible fade show"
+             role="alert">
+            {{ message }}
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Close"></button>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<script>
+    setTimeout(function() {
+        var message = document.getElementById("success-message");
+
+        if (message) {
+            message.style.display = "none";
+        }
+    }, 2500);
+</script>
+
+<section class="hero text-center">
+    <div class="banner-container">
+        <img src="{% static 'images/banner.jpg' %}"
+             alt="Bazaar Online banner"
+             class="banner-image">
+    </div>
+
+    <div class="container" >
+
+        <h1>Buy & Sell Anything in Nepal</h1>
+
+        <p>
+            <h5>Find great deals or sell things you no longer need.</h5>
+        </p>
+
+
+        <!-- Search bar -->
+
+        <form method='GET' action="{% url 'search' %}" class="search-box">
+
+            <div class="input-group" stype="max-width:600px;">
+
+                <input
+                    type="text"
+                    name="q"
+                    class="form-control search-input"
+                    placeholder="What are you looking for?"
+                    value="{{ request.GET.q }}">
+
+                <button class=" btn btn-success" type="submit">
+                    Search
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
+
+<!-- ================= CATEGORIES ================= -->
+
+<section class="container my-2">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h2 class="fw-bold mb-0">
+            Browse Categories
+        </h2>
+
+        <a href="{% url 'categories' %}" class="text-success text-decoration-none">
+            View All
+        </a>
+
+    </div>
+    <div class="row g-3">
+    {% for value, label in category_choices|slice:":6" %}
+        
+        <div class="col-6 col-md-4 col-lg-2">
+            <div class="category_card">
+                <div class="category_icon">
+                    <a href="{% url 'category_listings' value %}">
+                        {{label}}
+                    </a>
+                </div>
+
+                <h6>{{label}}</h6>
+            </div>
+        </div>
+        
+    {% endfor %}
+    </div>
+</section>
+
+<!-- ================= LATEST LISTINGS ================= -->
+
+<section class="container my-5">
+
+    <h2 class="text-center mb-4">
+        Latest Listings
+    </h2>
+
+    <div class="row">
+
+        {% for listing in latest_listings %}
+
+        <div class="col-md-4 mb-4">
+
+            <div class="card h-100 shadow-sm">
+
+                {% if listing.image %}
+                    <img src="{{ listing.image.url }}"
+                         class="card-img-top"
+                         style="height: 220px; object-fit: cover;"
+                         alt="{{ listing.title }}">
+                {% endif %}
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        {{ listing.title }}
+                    </h5>
+
+                    <h6 class="text-success">
+                        Rs. {{ listing.price }}
+                    </h6>
+
+                    <p class="text-muted mb-2">
+                        {{ listing.location }}
+                    </p>
+
+                    <p class="card-text">
+                        {{ listing.description|truncatewords:15 }}
+                    </p>
+
+                    <a href="{% url 'listing_detail' listing.id %}"
+                       class="btn btn-success">
+                        View Details
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="col-12 text-center">
+            <p class="text-muted">
+                No listings available yet.
+            </p>
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+
+{% endblock %}

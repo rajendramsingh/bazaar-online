@@ -1,0 +1,67 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.hero {
+    padding: 20px 20px;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 48px;
+    font-weight: bold;
+}
+
+.category_card {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.category_card .category_icon i,
+.category_card h6 {
+    transition: all 0.3s ease;
+}
+
+.category_card:hover {
+    transform: translateY(-5px);
+}
+
+.category_card:hover .category_icon i {
+    transform: scale(1.2);
+}
+
+.category_card:hover h6 {
+    font-weight: 700;
+}
+
+.login-signup {
+    white-space: nowrap;
+}
+
+.login-signup a {
+    text-decoration: none;
+}
+
+.bazaar-brand {
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: -1px;
+    color: #111827;
+    text-transform: uppercase;
+    position: relative;
+}
+
+.bazaar-brand::after {
+    content: "";
+    display: block;
+    width: 35px;
+    height: 4px;
+    background: #f59e0b;
+    border-radius: 5px;
+    margin-top: 2px;
+}
+
+.banner-container {
+    width: 100%;
+    margin-bottom: 20px;
+}
