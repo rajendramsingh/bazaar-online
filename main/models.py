@@ -38,7 +38,7 @@ class Listing(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
-    price = models. PositiveIntegerField()
+    price = models.PositiveIntegerField()
     image = models.ImageField(upload_to='listings/', blank=False, null=False)
     location = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -62,4 +62,35 @@ class Listing(models.Model):
     def __str__(self):
         return self.title
 
-    
+class Comment(models.Model):
+    listing = models.ForeignKey(
+        Listing,
+        on_delete=models.CASCADE,
+        related_name='comments'
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.listing.title}"
+
+class Notification(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='notifications'
+    )
+    comment = models.ForeignKey(
+        Comment,
+        on_delete=models.CASCADE,
+        related_name='notification'
+    )
+    is_read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Notification for {self.user.username}"

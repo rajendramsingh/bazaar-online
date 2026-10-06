@@ -4,45 +4,174 @@
 
 <div class="container my-5">
 
-    <div class="row">
+```
+<!-- Listing Details -->
+<div class="row">
 
-        <div class="col-md-6">
+    <div class="col-md-6">
 
-            {% if listing.image %}
-                <img
-                    src="{{ listing.image.url }}"
-                    class="img-fluid rounded"
-                    alt="{{ listing.title }}"
-                >
-            {% endif %}
-
-        </div>
-
-        <div class="col-md-6">
-
-            <h2>{{ listing.title }}</h2>
-
-            <h4 class="text-success">
-                Rs. {{ listing.price }}
-            </h4>
-
-            <p>
-                {{ listing.description }}
-            </p>
-
-            <p>
-                <strong>Location:</strong>
-                {{ listing.location }}
-            </p>
-
-            <p>
-                <strong>Category:</strong>
-                {{ listing.category }}
-            </p>
-
-        </div>
+        {% if listing.image %}
+            <img
+                src="{{ listing.image.url }}"
+                class="img-fluid rounded"
+                alt="{{ listing.title }}"
+            >
+        {% endif %}
 
     </div>
+
+    <div class="col-md-6">
+
+        <h2>{{ listing.title }}</h2>
+
+        <h4 class="text-success">
+            Rs. {{ listing.price }}
+        </h4>
+
+        <p>
+            {{ listing.description }}
+        </p>
+
+        <p>
+            <strong>Location:</strong>
+            {{ listing.location }}
+        </p>
+
+        <p>
+            <strong>Category:</strong>
+            {{ listing.get_category_display }}
+        </p>
+
+        <p>
+            <strong>Seller:</strong>
+            {{ listing.user.username }}
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- Comments Section -->
+<hr class="my-5">
+
+<div class="row">
+
+    <div class="col-md-8 mx-auto">
+
+        <h4 class="mb-4">
+            Questions & Comments
+        </h4>
+
+
+        <!-- Existing Comments -->
+        {% if comments %}
+
+            {% for comment in comments %}
+
+                <div class="card mb-3 shadow-sm">
+
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+
+                                <strong>
+                                    {{ comment.user.username }}
+                                </strong>
+
+                                {% if comment.user == listing.user %}
+                                    <span class="badge bg-success ms-2">
+                                        Seller
+                                    </span>
+                                {% endif %}
+
+                            </div>
+
+                            <small class="text-muted">
+                                {{ comment.created_at|date:"M d, Y H:i" }}
+                            </small>
+
+                        </div>
+
+                        <p class="mt-3 mb-0">
+                            {{ comment.text }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="alert alert-light border">
+                No comments yet. Be the first to ask a question.
+            </div>
+
+        {% endif %}
+
+
+        <!-- Add Comment -->
+        {% if user.is_authenticated %}
+
+            <div class="card mt-4 shadow-sm">
+
+                <div class="card-body">
+
+                    <h5 class="mb-3">
+                        Leave a comment
+                    </h5>
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+
+                            <textarea
+                                name="text"
+                                class="form-control"
+                                rows="4"
+                                placeholder="Ask the seller a question..."
+                                required
+                            ></textarea>
+
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn btn-success"
+                        >
+                            Post Comment
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        {% else %}
+
+            <div class="alert alert-info mt-4">
+
+                Please
+                <a href="{% url 'login' %}?next={{ request.path }}">
+                    log in
+                </a>
+                to ask a question or leave a comment.
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+```
 
 </div>
 

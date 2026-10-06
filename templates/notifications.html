@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container my-5">
+
+```
+<div class="row">
+    <div class="col-md-8 mx-auto">
+
+        <h2 class="mb-4">
+            <i class="bi bi-bell"></i>
+            Notifications
+        </h2>
+
+        {% if notifications %}
+
+            {% for notification in notifications %}
+
+                <div class="card mb-3 shadow-sm">
+
+                    <div class="card-body">
+
+                        <h6>
+                            {{ notification.comment.user.username }}
+                            commented on
+                            <strong>
+                                {{ notification.comment.listing.title }}
+                            </strong>
+                        </h6>
+
+                        <p class="mb-2">
+                            "{{ notification.comment.text }}"
+                        </p>
+
+                        <small class="text-muted">
+                            {{ notification.created_at|date:"M d, Y H:i" }}
+                        </small>
+
+                        <div class="mt-3">
+                            <a
+                                href="{% url 'listing_detail' notification.comment.listing.id %}"
+                                class="btn btn-sm btn-success"
+                            >
+                                View Listing
+                            </a>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="alert alert-light border">
+                <i class="bi bi-check-circle"></i>
+                You have no notifications.
+            </div>
+
+        {% endif %}
+
+    </div>
+</div>
+```
+
+</div>
+
+{% endblock %}

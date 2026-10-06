@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from main.models import Contact, Listing
+from main.models import Contact, Listing, Comment, Notification
 from django.core.mail import send_mail
 import os
 from django.contrib import messages
@@ -224,8 +224,58 @@ def search(request):
 
 def listing_detail(request, id):
     listing = Listing.objects.get(id=id)
+    comments = listing.comments.select_related('user').order_by('-created_at')
 
-    return render(request, 'listing_detail.html', {'listing': listing})
+    if request.method == 'POST':
+        if not request.user.is_authenticated:
+            messages.error(request, "Please log in to post a comment")
+            return redirect('login')
+
+        text = request.POST.get("text", '').strip()
+
+        if text:
+            comment = Comment.objects.create(
+                listing=listing,
+                user=request.user,
+                text=text
+            )
+
+            # Create notification for the seller
+            if request.user != listing.user:
+                Notification.objects.create(
+                    user=listing.user,
+                    comment=comment
+                )
+
+            messages.success(request, "Your comment has been posted.")
+        else:
+            messages.error(request, "Comment cannot be empty.")
+
+        return redirect('listing_detail', id=listing.id)
+
+    context = {
+        'listing': listing,
+        'comments': comments,
+    }
+
+    return render(request, 'listing_detail.html', context)
+
+@login_required
+def notifications(request):
+    notifications = request.user.notifications.select_related(
+        'comment',
+        'comment__listing',
+        'comment__user'
+    ).order_by('-created_at')
+
+    # Mark all notifications as read when the page is opened
+    request.user.notifications.filter(is_read=False).update(is_read=True)
+
+    return render(
+        request,
+        'notifications.html',
+        {'notifications': notifications}
+    )
 
 @login_required
 def edit_profile(request):
